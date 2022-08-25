@@ -2,7 +2,13 @@ const graphql = require("graphql");
 console.log(graphql);
 
 const _ = require("lodash");
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID } = graphql;
+const {
+    GraphQLObjectType,
+    GraphQLString,
+    GraphQLSchema, 
+    GraphQLID, 
+    GraphQLInt 
+} = graphql;
 
 // dummy data
 let books = [
@@ -27,6 +33,16 @@ const BookType = new GraphQLObjectType({
     }),
 });
 
+const AuthorType = new GraphQLObjectType({
+    name: "Author",
+    fields: () => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+
+    })
+})
+
 // 検索方法の定義
 // フロントからユーザー型タケルクエリの定義
 const RootQuery = new GraphQLObjectType({
@@ -43,6 +59,13 @@ const RootQuery = new GraphQLObjectType({
                 return _.find(books, { id: args.id });
             },
         },
+        author: {
+            type: AuthorType,
+            args: {id: {type: GraphQLID}},
+            resolve(parent, args) {
+                return _.find(authors, {id: args.id});
+            }
+        }
     },
 });
 
