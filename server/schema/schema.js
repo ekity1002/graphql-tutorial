@@ -2,7 +2,7 @@ const graphql = require("graphql");
 console.log(graphql);
 
 const _ = require("lodash");
-const { GraphQLObjectType, GraphQLString, GraphQLSchema } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID } = graphql;
 
 // dummy data
 let books = [
@@ -11,11 +11,17 @@ let books = [
     { name: "The Long Earth", genre: "Sci-Fi", id: "3" },
 ];
 
+let authors = [
+    { name: 'Patrick Rothfuss', age: 44, id: '1' },
+    { name: 'Brandon Sanderson', age: 42, id: '2' },
+    { name: 'Terry Pratchett', age: 66, id: '3' }
+];
+
 const BookType = new GraphQLObjectType({
     name: "Book",
     // object を返却する allowfunc の場合は, () で囲む必要あり
     fields: () => ({
-        id: { type: GraphQLString },
+        id: { type: GraphQLID },
         name: { type: GraphQLString },
         genre: { type: GraphQLString },
     }),
@@ -28,7 +34,7 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         book: {
             type: BookType,
-            args: { id: { type: GraphQLString } },
+            args: { id: { type: GraphQLID } },
             resolve(parent, args) {
                 // db からデータを取得する方法
                 // objectを見つけるコードをこのなかにきじゅつする
