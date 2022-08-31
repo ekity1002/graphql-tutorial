@@ -20,8 +20,11 @@ up:
 	docker-compose up -d
 down:
 	docker-compose down
-con:
+cf:
 	docker-compose exec frontend /bin/ash
+cb:
+	docker-compose exec backend /bin/ash
+
 # --------------------------------------------------------
 # docker commands
 export NONE_DOCKER_IMAGES=`docker images -f dangling=true -q`
